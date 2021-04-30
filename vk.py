@@ -55,6 +55,7 @@ keyboard = str(keyboard.decode('utf-8'))
 def vk(id, text):
 
     bh.method('messages.send', {'user_id' : id, 'message' : text, 'random_id': 0, 'keyboard' : keyboard})
+
 def parse():
     url = 'https://vk.com/kvantorium62'
     headers = {
@@ -67,6 +68,9 @@ def parse():
     for item in items:
 
         comps.append([item.find('div', class_='wall_post_text')])
+
+parse()
+
 # Слушаем (Сообщения)
 for event in longpoll.listen():
     if event.type == VkEventType.MESSAGE_NEW:
@@ -90,12 +94,13 @@ for event in longpoll.listen():
           elif message == 'наш дискорд':
              vk(id, 'https://discord.gg/NuMjvGAPPH')
 
+
           elif message == 'научные гифки':
                     for i in comps:
                       if '/emoji/e/f09f8eaf.png' in str(i[0]):
                           i[0] = str(i[0]).replace("<br/>", "\n")
                           i[0] = BeautifulSoup(i[0], 'html.parser')
-                          vk(id,(i[0].get_text(strip=False), keyboard ))
+                          vk(id,(i[0].get_text(strip=False))) 
 
           else:
-               vk(id, 'Можете более понятнее выразиться')
+                    vk(id, 'Можете более понятнее выразиться')
